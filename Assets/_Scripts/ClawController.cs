@@ -8,7 +8,10 @@ public class ClawController : MonoBehaviour
     public float minX = -2.5f;
     public float maxX = 2.5f;
     [SerializeField] LineRenderer lineRenderer;
-    
+    private void Start()
+    {
+        Input.simulateMouseWithTouches = false;
+    }
     void Update()
     {
         if (!GameManager.gm.isGameOver)
@@ -33,7 +36,12 @@ public class ClawController : MonoBehaviour
             newPosition.x = Mathf.Clamp(worldPosition.x, minX, maxX);
             transform.position = newPosition;
         }
-        if (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            lineRenderer.enabled = false;
+            GameManager.gm.DropFruit();
+        }
+        else if (Input.touchCount == 0 && Input.GetMouseButtonUp(0))
         {
             lineRenderer.enabled = false;
             GameManager.gm.DropFruit();
