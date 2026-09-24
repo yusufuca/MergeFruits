@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Banana
   m_EditorClassIdentifier: 
   fruitType: 1
-  toEvolve: 0
+  toEvolve: {fileID: 11400000, guid: a8370ab7373c98e48b46e19a86871a3e, type: 2}
+  intialScale: {x: 0.8, y: 0.8, z: 0.8}
   sprite: {fileID: 1447522054, guid: ec9410d4efdbbe64d9c40fcde32ac51e, type: 3}
-  maxMergeCount: 3
-  scoreValue: 0
+  explosionSprite: {fileID: 695635222, guid: ec9410d4efdbbe64d9c40fcde32ac51e, type: 3}
+  maxMergeCount: 4
+  scoreValue: 15

@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Strawberry
   m_EditorClassIdentifier: 
   fruitType: 0
-  toEvolve: 0
+  toEvolve: {fileID: 11400000, guid: fc5fac68b470e0f48868b4d2ca1cd46f, type: 2}
+  intialScale: {x: 0.5, y: 0.5, z: 0.5}
   sprite: {fileID: -2047991388, guid: ec9410d4efdbbe64d9c40fcde32ac51e, type: 3}
-  maxMergeCount: 4
+  explosionSprite: {fileID: -2025608248, guid: ec9410d4efdbbe64d9c40fcde32ac51e, type: 3}
+  maxMergeCount: 5
   scoreValue: 10

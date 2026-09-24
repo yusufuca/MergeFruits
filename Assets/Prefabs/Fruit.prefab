@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 479375503879334099}
   - component: {fileID: 7137658425600621145}
   - component: {fileID: 6326843688497842698}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Fruit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1521943709
+  m_SortingLayer: 2
   m_SortingOrder: 99
   m_Sprite: {fileID: -2047991388, guid: ec9410d4efdbbe64d9c40fcde32ac51e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3561965ec3928143929c2c1427d171c, type: 3}
+  m_Name: Watermelon
+  m_EditorClassIdentifier: 
+  fruitType: 5
+  toEvolve: {fileID: 0}
+  intialScale: {x: 2.2, y: 2.2, z: 2.2}
+  sprite: {fileID: -38321506, guid: ec9410d4efdbbe64d9c40fcde32ac51e, type: 3}
+  explosionSprite: {fileID: 381945274, guid: ec9410d4efdbbe64d9c40fcde32ac51e, type: 3}
+  maxMergeCount: 3
+  scoreValue: 40
