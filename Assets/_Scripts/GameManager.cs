@@ -35,7 +35,6 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        scoreTextImage.transform.localPosition = new Vector2(0, 888);
         vignetteColor = GameManager.gm.vignette.color;
     }
 
@@ -43,6 +42,7 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameOver)
         {
+            //scoreTextImage.transform.localPosition = new Vector2(0, -150);
             scoreText.text = score.ToString();
             GenerateFruitQueue();
             if (Input.GetKeyUp(KeyCode.F) && !isGameOver) DropFruit();
@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            scoreTextImage.transform.localPosition = new Vector2(0, 50);
             vignetteColor.a = 0;
             vignette.color = vignetteColor;
         }

@@ -105,7 +105,6 @@ public class Fruit : MonoBehaviour
             if(currentOverTimer >= GameManager.gm.gameOverTimer)
             {
                 Debug.LogWarning("GAMEOVER");
-                GameManager.gm.scoreTextImage.transform.localPosition = new Vector2(0, 46);
                 GameManager.gm.gameOverObject.SetActive(true);
                 GameManager.gm.isGameOver = true;
             }
