@@ -27,8 +27,18 @@ public class GameManager : MonoBehaviour
     public LayerMask fruitLayer;
     public bool isGameOver = false;
     public Image vignette;
+    public Image failLineFill;
     Color vignetteColor;
     float currentOverTimer;
+
+    public AudioClip mergeSound;
+    public AudioClip idleMusic;
+    public AudioClip gameoverMusic;
+    public AudioClip failLineMusic;
+    [SerializeField] private AudioSource musicSource;
+    public AudioSource sfxSource;
+
+    float velocity;
     private void Awake()
     {
         gm = this;
@@ -54,6 +64,12 @@ public class GameManager : MonoBehaviour
             scoreTextImage.transform.localPosition = new Vector2(0, 50);
             vignetteColor.a = 0;
             vignette.color = vignetteColor;
+            if (musicSource.clip != failLineMusic)
+            {
+                musicSource.clip = failLineMusic;
+                musicSource.loop = true;
+                musicSource.Play();
+            }
         }
     }
 
@@ -98,13 +114,36 @@ public class GameManager : MonoBehaviour
         {
             currentOverTimer += Time.deltaTime;
             float alphaValue = Mathf.Clamp01(currentOverTimer / gameOverTimer);
-            float velocity = 0;
-            if (alphaValue > 0.3) vignetteColor.a = Mathf.SmoothDamp(vignette.color.a, alphaValue,ref velocity,0.1f);
+            Debug.Log(alphaValue);
+            failLineFill.fillAmount = alphaValue;
+            if(alphaValue >= 1)
+            {
+                gameOverObject.SetActive(true);
+                isGameOver = true;
+                return;
+            }
+            if (alphaValue > 0.3)
+            {
+                vignetteColor.a = Mathf.SmoothDamp(vignette.color.a, alphaValue, ref velocity, 0.1f);
+                if (musicSource.clip != failLineMusic)
+                {
+                    musicSource.clip = failLineMusic;
+                    musicSource.loop = true;
+                    musicSource.Play();
+                }
+            }
         }
         else
         {
             currentOverTimer = 0;
             vignetteColor.a = 0;
+            failLineFill.fillAmount = 0;
+            if (musicSource.clip != idleMusic)
+            {
+                musicSource.clip = idleMusic;
+                musicSource.loop = true;
+                musicSource.Play();
+            }
         }
         vignette.color = vignetteColor;
     }

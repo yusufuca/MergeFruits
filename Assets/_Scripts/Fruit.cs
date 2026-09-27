@@ -10,10 +10,8 @@ public class Fruit : MonoBehaviour
     public bool isDropped = false;
     public int mergeCount;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    private fruitTypes myType;
-    private float currentOverTimer = 0;
-
    
+
     private void Start()
     {
         if(myData != null) SetupFruit();
@@ -27,47 +25,50 @@ public class Fruit : MonoBehaviour
     private void SetupFruit()
     {
         spriteRenderer.sprite = myData.sprite;
-        myType = myData.fruitType;
         transform.localScale = myData.intialScale;
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Fruit otherScript = collision.gameObject.GetComponent<Fruit>();
-        if (otherScript != null)
-        {
-            if (otherScript.isDropped && isDropped)
+        if (GameManager.gm.isGameOver) return;
+            Fruit otherScript = collision.gameObject.GetComponent<Fruit>();
+            if (otherScript != null)
             {
-                int otherIndex = otherScript.myIndex;
-                if (myIndex > otherIndex && myData.fruitType == otherScript.myData.fruitType)
+                if (otherScript.isDropped && isDropped)
                 {
-                    mergeCount += otherScript.mergeCount + 1;
-                    GameManager.gm.score += myData.scoreValue;
-                    if (mergeCount >= myData.maxMergeCount)
+                    int otherIndex = otherScript.myIndex;
+                    if (myIndex > otherIndex && myData.fruitType == otherScript.myData.fruitType)
                     {
-                        if (myData.toEvolve != null)
+                        GameManager.gm.sfxSource.pitch = Random.Range(0.9f, 1.1f);
+                        GameManager.gm.sfxSource.PlayOneShot(GameManager.gm.mergeSound);
+                        mergeCount += otherScript.mergeCount + 1;
+                        GameManager.gm.score += myData.scoreValue;
+                        if (mergeCount >= myData.maxMergeCount)
                         {
-                            GameObject newFruit = Instantiate(GameManager.gm.emptyFruitPrefab,transform.position,Quaternion.identity);
-                            Fruit newFruitScript = newFruit.GetComponent<Fruit>();
-                            newFruitScript.myData = myData.toEvolve;
-                            newFruitScript.isDropped = true;
-                            newFruitScript.myIndex = newFruit.GetInstanceID();
-                            newFruit.GetComponent<Rigidbody2D>().simulated = true;
+                            if (myData.toEvolve != null)
+                            {
+                                GameObject newFruit = Instantiate(GameManager.gm.emptyFruitPrefab, transform.position, Quaternion.identity);
+                                Fruit newFruitScript = newFruit.GetComponent<Fruit>();
+                                newFruitScript.myData = myData.toEvolve;
+                                newFruitScript.isDropped = true;
+                                newFruitScript.myIndex = newFruit.GetInstanceID();
+                                newFruit.GetComponent<Rigidbody2D>().simulated = true;
+                            }
+                            if (GameManager.gm.failedFruits.Contains(gameObject)) GameManager.gm.failedFruits.Remove(gameObject);
+                            if (GameManager.gm.failedFruits.Contains(collision.gameObject)) GameManager.gm.failedFruits.Remove(collision.gameObject);
+                            Destroy(gameObject);
+                            Destroy(collision.gameObject);
                         }
-                        if (GameManager.gm.failedFruits.Contains(gameObject)) GameManager.gm.failedFruits.Remove(gameObject);
-                        if (GameManager.gm.failedFruits.Contains(collision.gameObject)) GameManager.gm.failedFruits.Remove(collision.gameObject);
-                        Destroy(gameObject);
-                        Destroy(collision.gameObject);
+                        else
+                        {
+                            transform.localScale *= 1.2f;
+                            Destroy(collision.gameObject);
+                            if (GameManager.gm.failedFruits.Contains(collision.gameObject)) GameManager.gm.failedFruits.Remove(collision.gameObject);
+                        }
+                        MergeExplosion();
                     }
-                    else
-                    {
-                        transform.localScale *= 1.2f;
-                        Destroy(collision.gameObject);
-                        if (GameManager.gm.failedFruits.Contains(collision.gameObject)) GameManager.gm.failedFruits.Remove(collision.gameObject);
-                    }
-                    MergeExplosion();
                 }
             }
-        }
+       
     }
     
     private void MergeExplosion()
@@ -100,18 +101,10 @@ public class Fruit : MonoBehaviour
     {
         if(isDropped && transform.position.y > GameManager.gm.failLine.transform.position.y)
         {
-            currentOverTimer += Time.deltaTime;
             if(!GameManager.gm.failedFruits.Contains(gameObject)) GameManager.gm.failedFruits.Add(gameObject);
-            if(currentOverTimer >= GameManager.gm.gameOverTimer)
-            {
-                Debug.LogWarning("GAMEOVER");
-                GameManager.gm.gameOverObject.SetActive(true);
-                GameManager.gm.isGameOver = true;
-            }
         }
         else
         {
-            currentOverTimer = 0;
             GameManager.gm.failedFruits.Remove(gameObject);
         }
     }
